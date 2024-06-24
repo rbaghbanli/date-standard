@@ -1,0 +1,7 @@
+*.tgz
+eslint*.*
+tsconfig*.*
+cjs/
+src/
+spec/
+.vscode/

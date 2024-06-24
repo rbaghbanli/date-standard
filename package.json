@@ -1,0 +1,57 @@
+{
+	"name": "date-extension",
+	"version": "1.0.0",
+	"description": "Date Extension",
+	"main": "dst/cjs/index.js",
+	"module": "dst/index.js",
+	"types": "dst/index.d.ts",
+	"type": "module",
+	"hopmepage": "https://github.com/rbaghbanli/date-extension",
+	"bugs": "https://github.com/rbaghbanli/date-extension/issues",
+	"author": "Riad Baghbanli <riad@baghbanli.com>",
+	"contributors": [
+		{
+			"name": "Riad Baghbanli",
+			"email": "riad@baghbanli.com"
+		}
+	],
+	"keywords": [
+		"Date",
+		"Extension",
+		"stringify",
+		"parse"
+	],
+	"scripts": {
+		"clean": "rimraf --glob dst/* && rimraf --glob *.tgz",
+		"prebuild": "npm run clean",
+		"build": "tsc --build tsconfig.esm.json && tsc --build tsconfig.cjs.json",
+		"pretest": "npm run clean && tsc --build tsconfig.spec.json",
+		"test": "jasmine",
+		"lint": "eslint ./src ./spec",
+		"lint-fix": "eslint ./src ./spec --fix",
+		"prepare": "npm run build && copyfiles ./cjs/package.json ./dst"
+	},
+	"license": "MIT",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/rbaghbanli/date-extension.git"
+	},
+	"exports": {
+		".": {
+			"import": "./dst/index.js",
+			"require": "./dst/cjs/index.js"
+		}
+	},
+	"dependencies": {},
+	"devDependencies": {
+		"@types/jasmine": "~5.1.4",
+		"@typescript-eslint/eslint-plugin": "~7.14.0",
+		"@typescript-eslint/parser": "~7.14.0",
+		"copyfiles": "~2.4.1",
+		"eslint": "~8.57.0",
+		"jasmine": "~5.1.0",
+		"rimraf": "~5.0.7",
+		"typescript": "~5.5.2",
+		"typescript-eslint": "^7.14.0"
+	}
+}
