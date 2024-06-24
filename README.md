@@ -1,7 +1,7 @@
-# date-extension
-Functions for extended date stringification and parsing.
+# date-standard
+Functions for standard date stringification and parsing.
 
-Supported date formats:
+Supported date string formats:
 * 'YYYY-MM'
 * 'YYYY-MM-DD'
 * 'hh:mm'
