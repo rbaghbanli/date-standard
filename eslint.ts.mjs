@@ -27,7 +27,7 @@ const rules = {
 	"curly": "error",
 	"func-call-spacing": "off",
 	"generator-star-spacing": [ "error", { "before": true, "after": false } ],
-	"indent": [ "error", "tab" ],
+	"indent": [ "error", "tab", { "SwitchCase": 1 } ],
 	"no-mixed-spaces-and-tabs": "error",
 	"space-in-parens": [ "error", "never" ],
 	"template-curly-spacing": [ "error", "never" ],
