@@ -1,7 +1,7 @@
 {
 	"name": "date-standard",
-	"version": "1.0.1",
-	"description": "Date Standard",
+	"version": "1.0.2",
+	"description": "Date Standard format stringify and parse functions",
 	"main": "dst/cjs/index.js",
 	"module": "dst/index.js",
 	"types": "dst/index.d.ts",

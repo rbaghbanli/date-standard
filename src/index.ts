@@ -1,20 +1,23 @@
+export type StandardFormat = 'YYYY' | 'YYYY-MM' | 'YYYY-MM-DD' | 'hh:mm' | 'hh:mm:ss' | 'hh:mm:ss.fff' | 'YYYY-MM-DD hh:mm' | 'YYYY-MM-DD hh:mm:ss' | 'YYYY-MM-DD hh:mm:ss.fff';
+
 /**
-	Returns formatted date, time or date-time string.
-	@param value Date to stringify.
-	@param format 'YYYY-MM-DD', 'hh:mm', 'hh:mm:ss', 'hh:mm:ss.fff', 'YYYY-MM-DD hh:mm:ss', 'YYYY-MM-DD hh:mm:ss.fff'.
-	@param utc True for UTC, false for local.
-	@returns Formatted date or date-time string.
+	Returns formatted string, local or UTC.
+	@param value Date value to stringify.
+	@param format 'YYYY', 'YYYY-MM', 'YYYY-MM-DD', 'hh:mm', 'hh:mm:ss', 'hh:mm:ss.fff', 'YYYY-MM-DD hh:mm:ss', 'YYYY-MM-DD hh:mm:ss.fff'.
+	@param utc True for UTC, omit or false for local.
+	@returns Formatted string.
 */
-export function stringify(value: Date | null | undefined,
-	format: 'YYYY-MM' | 'YYYY-MM-DD' | 'hh:mm' | 'hh:mm:ss' | 'hh:mm:ss.fff' | 'YYYY-MM-DD hh:mm' | 'YYYY-MM-DD hh:mm:ss' | 'YYYY-MM-DD hh:mm:ss.fff',
-	utc?: boolean): string | null {
+export function stringify(value: Date | null | undefined, format: StandardFormat, utc?: boolean): string | null {
 	if (!value) {
 		return null;
 	}
 	switch (format) {
+		case 'YYYY': return utc
+			? value.getUTCFullYear().toString().padStart(4, '0')
+			: value.getFullYear().toString().padStart(4, '0');
 		case 'YYYY-MM': return utc
-			? `${value.getUTCFullYear().toString()}-${(value.getUTCMonth() + 1).toString().padStart(2, '0')}`
-			: `${value.getFullYear().toString()}-${(value.getMonth() + 1).toString().padStart(2, '0')}`;
+			? `${value.getUTCFullYear().toString().padStart(4, '0')}-${(value.getUTCMonth() + 1).toString().padStart(2, '0')}`
+			: `${value.getFullYear().toString().padStart(4, '0')}-${(value.getMonth() + 1).toString().padStart(2, '0')}`;
 		case 'YYYY-MM-DD': return `${stringify(value, 'YYYY-MM', utc)}-${(utc ? value.getUTCDate() : value.getDate()).toString().padStart(2, '0')}`;
 		case 'hh:mm': return utc
 			? `${value.getUTCHours().toString().padStart(2, '0')}:${value.getUTCMinutes().toString().padStart(2, '0')}`
@@ -28,31 +31,32 @@ export function stringify(value: Date | null | undefined,
 }
 
 /**
-	Returns parsed Date from formatted date or date-time string.
-	@param value Date or date-time string in YYYY-MM[-DD[hh:mm[:ss[.fff]]]] format.
-	@param utc True to parse string as UTC date or date-time, false to parse it as local.
-	@returns Parsed Date, throws Error if invalid parameter format.
+	Returns Date parsed from the string, local or UTC.
+	@param value String value in YYYY-MM[-DD[ hh:mm[:ss[.fff]]]] format.
+	@param utc True to parse string as UTC, omit or false to parse it as local.
+	@returns Parsed Date.
 */
-export function parse(value: string | null | undefined,
-	utc?: boolean): Date | null {
+export function parse(value: string | null | undefined, utc?: boolean): Date | null {
 	if (!value) {
 		return null;
 	}
 	if (utc) {
 		switch (value.length) {
-			case 7: return new Date(`${value}-01 00:00:00.000Z`);
-			case 10: return new Date(`${value} 00:00:00.000Z`);
 			case 16: return new Date(`${value}:00.000Z`);
 			case 19: return new Date(`${value}.000Z`);
 			default: {
 				if (value.length > 22) {
 					return new Date(`${value.substring(0, 23)}Z`);
 				}
-				throw new Error(`invalid parameter '${value}'`);
 			}
 		}
 	}
 	else {
-		return new Date(value);
+		switch (value.length) {
+			case 4: return new Date(`${value}-01-01 00:00`);
+			case 7: return new Date(`${value}-01 00:00`);
+			case 10: return new Date(`${value} 00:00`);
+		}
 	}
+	return new Date(value);
 }

@@ -1,7 +1,8 @@
 # date-standard
-Functions for standard date stringification and parsing.
+Date standard format stringify and parse functions.
 
-Supported date string formats:
+Supported standard date and/or time formats:
+* 'YYYY'
 * 'YYYY-MM'
 * 'YYYY-MM-DD'
 * 'hh:mm'
@@ -14,7 +15,7 @@ Supported date string formats:
 Target: ES2022 [browser+NodeJS][ESM+CJS].
 
 ### stringify
-Returns formatted string.
+Returns string in standard format, local or UTC.
 
 ### parse
-Returns parsed Date.
+Returns parsed Date, local or UTC.
